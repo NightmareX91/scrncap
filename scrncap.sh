@@ -27,9 +27,18 @@ up_scrnsht () {
     fi
 }
 
-#up_file () {
-    
-#}
+up_file () {
+    if [ -s $1 ]
+    then
+        echo "Uploading file"
+        curl -Ls -o /dev/null -w %{url_effective} -F "fileToUpload=@$1" http://meanwhile.rocks/upload.php | xclip -selection c
+        echo ""
+        notify-send "File uploaded!"
+    else
+        echo "Path doesn't exist"
+        notify-send "Path doesn't exist!"
+    fi
+}
 
 while getopts "hrwfcu:" opt; do
     case "$opt" in
@@ -78,7 +87,7 @@ while getopts "hrwfcu:" opt; do
             fi
             ;;
         u)
-
+            up_file $OPTARG
             ;;
         \?)
             echo "Invalid option: -$OPTARG" >&2
@@ -94,7 +103,3 @@ done
 shift $((OPTIND-1))
 
 #shutter -s -c -e -n -o="/home/meanwhile/Pictures/scrncap/$filename"
-
-sleep 1
-
-
