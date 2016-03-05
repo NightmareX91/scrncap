@@ -15,6 +15,7 @@ show_help () {
 }
 
 up_scrnsht () {
+    ext=".png"
     if [ -s "/home/meanwhile/Pictures/scrncap/$filename" ]
     then
         echo "Uploading screenshot"
@@ -90,12 +91,12 @@ while getopts "hrwfcu:" opt; do
             up_file $OPTARG
             ;;
         \?)
-            echo "Invalid option: -$OPTARG" >&2
-            exit 1
+            echo "Invalid option: $1" >&2
+            exit 0
             ;;
         :)
-            echo "Option -$OPTARG requires an argument." >&2
-            exit 1
+            echo "Option $1 requires an argument." >&2
+            exit 0
             ;;
     esac
 done
